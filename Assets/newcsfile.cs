@@ -8,8 +8,10 @@ public class newcsfile
     //this file will generate errors and warrnings!
     void main()
     {
-        if(true)
-            int a = 0;
+        if (true)
+        {
+
+        }
 
     }
 
