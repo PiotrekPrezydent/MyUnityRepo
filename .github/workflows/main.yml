@@ -41,5 +41,3 @@ jobs:
         with:
           unityVersion: 2021.3.19f1
           targetPlatform: StandaloneLinux64
-      - name: Build C# code
-        run: dotnet build --configuration Release --verbosity diagnostic || true
