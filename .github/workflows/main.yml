@@ -42,6 +42,24 @@ jobs:
         with:
           unityVersion: 2021.3.19f1
           targetPlatform: StandaloneWindows
+          buildMethod: UnityBuilderAction.BuildScript.Build
+  
+      - uses: game-ci/unity-test-runner@v2
+        id: tests
+        with:
+          coverageOptions: 'generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*'
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Test results for ${{ matrix.testMode }}
+          path: ${{ steps.tests.outputs.artifactsPath }}
+          
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Coverage results for ${{ matrix.testMode }}
+          path: ${{ steps.tests.outputs.coveragePath }}
           
       - uses: actions/upload-artifact@v2
         with:
