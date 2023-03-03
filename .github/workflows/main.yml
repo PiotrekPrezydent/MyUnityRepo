@@ -37,15 +37,11 @@ jobs:
           git add .
           git reset --hard  
           
-      - name: Build Unity Project
-        run: |
-          unity -batchmode -nographics -projectPath path/to/project -logFile build.log -quit -executeMethod BuildScript.Build
-            
       - name: Build Unity project
         uses: game-ci/unity-builder@v2.0.0
         with:
           unityVersion: 2021.3.19f1
-          buildMethod: UnityBuilderAction.BuildScript.Build
+          customParameters: -batchmode -nographics
           targetPlatform: StandaloneWindows
           
       - uses: actions/upload-artifact@v2
