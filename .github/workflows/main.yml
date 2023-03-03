@@ -41,7 +41,6 @@ jobs:
         uses: game-ci/unity-builder@v2.0.0
         with:
           unityVersion: 2021.3.19f1
-          customParameters: -batchmode -nographics
           targetPlatform: StandaloneWindows
           
       - uses: actions/upload-artifact@v2
