@@ -2,8 +2,7 @@ name: Unity Build and Test
 
 on: [push]
 env:
-  UNITY_LICENSE: ${secrets.UNITY_LICENSE}
-
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
   build:
