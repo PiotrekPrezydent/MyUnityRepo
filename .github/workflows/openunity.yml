@@ -1,7 +1,8 @@
 name: unityactivation
 
 on: workflow_dispatch
-
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
   build:
