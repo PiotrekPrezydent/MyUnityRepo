@@ -10,7 +10,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-#       - name: Unity - Activate
-#         uses: game-ci/unity-activate@v2.0.0
+        
+      - name: Unity - Activate
+        uses: game-ci/unity-activate@v2.0.0
+        
       - name: Unity Installer
         uses: hanaytug/unity-installer@v1.1.0
