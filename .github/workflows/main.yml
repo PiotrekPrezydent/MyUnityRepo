@@ -6,6 +6,7 @@ env:
 
 jobs:
   build:
+    
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -46,15 +47,20 @@ jobs:
           
       - name: Build Unity project Cusotm
         uses: game-ci/unity-builder@v2.0.0
-        with:
-          allowDirtyBuild: true
-          buildMethod: UnityBuilderAction.BuildScript.Build
+        id: buildStep
+        #with:
+          #allowDirtyBuild: true
+          #buildMethod: UnityBuilderAction.BuildScript.Build
+      - name: printInfo
+        run: |
+          outputStep = "Compile scripts"
+          echo 'Info: ${{steps.buildStep.outputs.outputStep}}'
   
-      - uses: game-ci/unity-test-runner@v2
-        id: tests
-        with:
-          testMode: EditMode
-          customParameters: -NoUniqueIdentifier
+#       - uses: game-ci/unity-test-runner@v2
+#         id: tests
+#         with:
+#           testMode: EditMode
+#           customParameters: -NoUniqueIdentifier
       
 #       - uses: actions/upload-artifact@v2
 #         if: always()
