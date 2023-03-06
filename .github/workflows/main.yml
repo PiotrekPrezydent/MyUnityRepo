@@ -36,15 +36,18 @@ jobs:
           git add .
           git reset --hard  
           
-      - name: Build Unity project
-        uses: game-ci/unity-builder@v2.0.0
-        with:
-          unityVersion: 2021.3.19f1
-          targetPlatform: StandaloneWindows
-          customParameters: -NoUniqueIdentifier true -BuildScriptsOnly true
+#       - name: Build Unity project
+#         uses: game-ci/unity-builder@v2.0.0
+#         with:
+#           unityVersion: 2021.3.19f1
+#           targetPlatform: StandaloneWindows
+#           customParameters: -NoUniqueIdentifier true -BuildScriptsOnly true
+          
+          
       - name: Build Unity project Cusotm
         uses: game-ci/unity-builder@v2.0.0
         with:
+          allowDirtyBuild: true
           buildMethod: UnityBuilderAction.BuildScript.Build
   
       - uses: game-ci/unity-test-runner@v2
