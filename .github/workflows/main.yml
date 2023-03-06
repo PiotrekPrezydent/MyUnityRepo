@@ -54,7 +54,7 @@ jobs:
       - name: printInfo
         run: |
           outputStep="Compile scripts"
-          echo 'Info: ${{steps.buildStep.outputs.$outputStep}}'
+          echo 'Info: ${{steps.buildStep.outputs.outputStep}}'
   
 #       - uses: game-ci/unity-test-runner@v2
 #         id: tests
