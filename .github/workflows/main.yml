@@ -11,37 +11,37 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-#       - name: Restore Library cache
-#         uses: actions/cache@v2
-#         with:
-#           path: Library
-#           key: Library-test-project-${{ matrix.targetPlatform }}
-#           restore-keys: |
-#             Library-test-project-
-#             Library-
+      - name: Restore Library cache
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-test-project-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-test-project-
+            Library-
         
-#       - name: Create LFS file list
-#         run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
 
-#       - name: Restore LFS cache
-#         uses: actions/cache@v2
-#         id: lfs-cache
-#         with:
-#           path: .git/lfs
-#           key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+      - name: Restore LFS cache
+        uses: actions/cache@v2
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
 
-#       - name: Git LFS Pull
-#         run: |
-#           git lfs pull
-#           git add .
-#           git reset --hard  
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard  
           
-#       - name: Build Unity project
-#         uses: game-ci/unity-builder@v2.0.0
-#         with:
-#           unityVersion: 2021.3.19f1
-#           targetPlatform: StandaloneWindows
-#           customParameters: -NoUniqueIdentifier -BuildScriptsOnly
+      - name: Build Unity project
+        uses: game-ci/unity-builder@v2.0.0
+        with:
+          unityVersion: 2021.3.19f1
+          targetPlatform: StandaloneWindows
+          customParameters: -NoUniqueIdentifier -BuildScriptsOnly -ShowBuiltPlayer -DetailedBuildReport
   
       - uses: game-ci/unity-test-runner@v2
         id: tests
@@ -49,11 +49,11 @@ jobs:
           testMode: EditMode
           customParameters: -NoUniqueIdentifier
       
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: Test results for ${{ matrix.testMode }}
-          path: ${{ steps.tests.outputs.artifactsPath }}
+#       - uses: actions/upload-artifact@v2
+#         if: always()
+#         with:
+#           name: Test results for ${{ matrix.testMode }}
+#           path: ${{ steps.tests.outputs.artifactsPath }}
           
 #       - uses: actions/upload-artifact@v2
 #         with:
