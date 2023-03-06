@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 
@@ -160,9 +161,22 @@ namespace UnityBuilderAction
                 locationPathName = filePath,
 //                options = UnityEditor.BuildOptions.Development
             };
-
+            BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            
             //BuildSummary buildSummary = BuildPipeline.BuildPlayer(buildPlayerOptions).summary;
-            Console.WriteLine($"Custom Build Success");
+            Console.WriteLine($"Custom Build Success! printing info from build report{Eol}");
+            foreach(var step in report.steps)
+            {
+                Console.WriteLine($"{step.name} *** {Eol}");
+                foreach(var msg in step.messages)
+                {
+                    Console.WriteLine($"{msg.type} #### {msg.content} {Eol}");
+                    Console.WriteLine($"Next msg -------------------------{Eol}");
+                }
+                Console.WriteLine($"Next step ******************************* {Eol}");
+            }
+            
+            
             //ReportSummary(buildSummary);
             //ExitWithResult(buildSummary.result);
         }
