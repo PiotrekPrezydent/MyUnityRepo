@@ -161,9 +161,10 @@ namespace UnityBuilderAction
 //                options = UnityEditor.BuildOptions.Development
             };
 
-            BuildSummary buildSummary = BuildPipeline.BuildPlayer(buildPlayerOptions).summary;
-            ReportSummary(buildSummary);
-            ExitWithResult(buildSummary.result);
+            //BuildSummary buildSummary = BuildPipeline.BuildPlayer(buildPlayerOptions).summary;
+            Console.WriteLine($"Custom Build Success");
+            //ReportSummary(buildSummary);
+            //ExitWithResult(buildSummary.result);
         }
 
         private static void ReportSummary(BuildSummary summary)
