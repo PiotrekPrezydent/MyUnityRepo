@@ -19,4 +19,6 @@ jobs:
 
       - name: Step 2
         run: |
-          echo "The value of MY_VARIABLE is ${{ env.savedArray }}"
+          for str in ${{env.savedArray[@]}};do
+            echo $str
+          done
