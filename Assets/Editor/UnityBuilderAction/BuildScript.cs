@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Unity.Plastic.Newtonsoft.Json.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
@@ -165,17 +167,23 @@ namespace UnityBuilderAction
             
             //BuildSummary buildSummary = BuildPipeline.BuildPlayer(buildPlayerOptions).summary;
             Console.WriteLine($"Custom Build Success! printing info from build report{Eol}");
-            foreach(var step in report.steps)
+            Console.WriteLine($"");
+            List<string> savedContent = new List<string>();
+
+            foreach (var step in report.steps)
             {
                 Console.WriteLine($"{step.name} *** {Eol}");
                 foreach(var msg in step.messages)
                 {
+                    string savedInfo = msg.type.ToString() + " - " + msg.content;
                     Console.WriteLine($"{msg.type} #### {msg.content} {Eol}");
                     Console.WriteLine($"Next msg -------------------------{Eol}");
+                    savedContent.Add( savedInfo );
+
                 }
                 Console.WriteLine($"Next step ******************************* {Eol}");
             }
-            
+            Console.WriteLine($"savedArray=(${savedContent.First()})>>$GITHUB_ENV");
             
             //ReportSummary(buildSummary);
             //ExitWithResult(buildSummary.result);
