@@ -15,7 +15,10 @@ jobs:
           myArray=("jeden" "dwa")
           myArray+=("trzy" "cztery")
           echo "Hello, world!"
-          echo "savedArray=$myArray" >> $GITHUB_ENV
+          for str in ${myArray[@]};do
+            echo "savedArray+=$str" >> $GITHUB_ENV
+          done
+          
 
       - name: Step 2
         run: |
