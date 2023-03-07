@@ -48,13 +48,16 @@ jobs:
       - name: Build Unity project Cusotm
         uses: game-ci/unity-builder@v2.0.0
         id: buildStep
-        #with:
-          #allowDirtyBuild: true
-          #buildMethod: UnityBuilderAction.BuildScript.Build
+        with:
+          allowDirtyBuild: true
+          buildMethod: UnityBuilderAction.BuildScript.Build
+          
       - name: printInfo
         run: |
-          outputStep="Compile scripts"
-          echo 'Info: ${{steps.buildStep.outputs.outputStep}}'
+          myArray=${{env.savedArray}}
+          for str in ${myArray[@]};do
+            echo $str
+          done
   
 #       - uses: game-ci/unity-test-runner@v2
 #         id: tests
