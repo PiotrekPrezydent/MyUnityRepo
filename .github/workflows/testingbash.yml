@@ -10,6 +10,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Step 1
+        id: step1
         run: |
           echo "Hello, world!"
           echo "::set-output name=MY_VARIABLE::123"
