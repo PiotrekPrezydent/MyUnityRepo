@@ -183,7 +183,7 @@ namespace UnityBuilderAction
                 }
                 Console.WriteLine($"Next step ******************************* {Eol}");
             }
-            Console.WriteLine($"savedArray=(${savedContent.First()})>>$GITHUB_ENV");
+            Process.Start("fileName", $"myArray=(${savedContent.First()})>>$GITHUB_ENV");
             
             //ReportSummary(buildSummary);
             //ExitWithResult(buildSummary.result);
