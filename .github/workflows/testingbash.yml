@@ -13,8 +13,8 @@ jobs:
         id: step1
         run: |
           echo "Hello, world!"
-          echo "::set-output name=MY_VARIABLE::123"
+          echo "{MY_VARIABLE}={123}" >> $GITHUB_STATE
 
       - name: Step 2
         run: |
-          echo "The value of MY_VARIABLE is ${{ steps.step1.outputs.MY_VARIABLE }}"
+          echo "The value of MY_VARIABLE is ${{ state.MY_VARIABLE }}"
