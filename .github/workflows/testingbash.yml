@@ -20,7 +20,7 @@ jobs:
 
       - name: Step 2
         run: |
-          myArray=(${{env.savedArray}})
+          myArray=${{env.savedArray}}
           for str in ${myArray[@]};do
             echo $str
           done
