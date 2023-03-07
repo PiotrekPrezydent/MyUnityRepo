@@ -13,8 +13,8 @@ jobs:
         id: step1
         run: |
           echo "Hello, world!"
-          echo "MY_VARIABLE=123" >> $GITHUB_STATE
+          echo "MY_VARIABLE=123" >> $GITHUB_ENV
 
       - name: Step 2
         run: |
-          echo "The value of MY_VARIABLE is ${{ STATE_MY_VARIABLE }}"
+          echo "The value of MY_VARIABLE is ${{ env.MY_VARIABLE }}"
