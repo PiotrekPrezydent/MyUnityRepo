@@ -11,7 +11,7 @@ jobs:
 
       - name: first bash command
         run: |
-          str = "Hello World"
+          str="Hello World"
           echo $str
       - name: try take prev bash command
         run: |
