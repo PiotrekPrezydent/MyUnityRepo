@@ -9,10 +9,10 @@ jobs:
       - name: checkoutcode
         uses: actions/checkout@v2
 
-      - name: first bash command
+      - name: Step 1
         run: |
-          str="Hello World"
-          echo $str
-      - name: try take prev bash command
+          echo "Hello, world!"
+          echo "::set-env name=MY_VARIABLE::123"
+      - name: Step 2
         run: |
-          echo $str
+          echo "The value of MY_VARIABLE is ${{ env.MY_VARIABLE }}"
