@@ -178,18 +178,17 @@ namespace UnityBuilderAction
                 Console.WriteLine($"Next step ******************************* {Eol}");
             }
             savedInfo += $")";
-            var value = Environment.GetEnvironmentVariable("buildInfoArray");
+            var value = Environment.GetEnvironmentVariable("env.buildInfoArray");
             if(value == null)
             {
                 Console.WriteLine("null");
             }
             else
             {
-                Environment.SetEnvironmentVariable("buildInfoArray", savedInfo);
+                Environment.SetEnvironmentVariable("env.buildInfoArray", savedInfo);
                 Console.WriteLine(value);
             }
-            
-            
+
             //ReportSummary(buildSummary);
             //ExitWithResult(buildSummary.result);
         }
