@@ -55,7 +55,7 @@ jobs:
           
       - name: printInfo
         run: |
-          myArray=${{env.savedArray}}
+          myArray=${{env.buildInfoArray}}
           for str in ${myArray[@]};do
             echo $str
           done
