@@ -17,7 +17,7 @@ jobs:
           myArray=("jeden" "dwa")
           myArray+=("trzy" "cztery")
           echo "Hello, world!"
-          echo "echo "::save-state name=testArray::myArray"
+          echo "::save-state name=testArray::myArray"
           
 
       - name: Step 2
