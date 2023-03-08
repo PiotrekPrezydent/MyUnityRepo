@@ -3,7 +3,7 @@ name: Unity Build and Test
 on: workflow_dispatch
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-  thisArray: ("jeden" "dwa")
+  buildInfoArray: ()
 
 jobs:
   build:
