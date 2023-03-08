@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 
@@ -177,7 +178,17 @@ namespace UnityBuilderAction
                 Console.WriteLine($"Next step ******************************* {Eol}");
             }
             savedInfo += $")";
-            Environment.SetEnvironmentVariable("buildInfoArray", savedInfo);
+            var value = Environment.GetEnvironmentVariable("buildInfoArray");
+            if(value == null)
+            {
+                Console.WriteLine("null");
+            }
+            else
+            {
+                Environment.SetEnvironmentVariable("buildInfoArray", savedInfo);
+                Console.WriteLine(value);
+            }
+            
             
             //ReportSummary(buildSummary);
             //ExitWithResult(buildSummary.result);
