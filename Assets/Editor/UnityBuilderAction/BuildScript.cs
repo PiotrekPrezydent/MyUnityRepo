@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
+using UnityEngine;
 
 namespace UnityBuilderAction
 {
@@ -159,38 +160,27 @@ namespace UnityBuilderAction
                 target = buildTarget,
 //                targetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget),
                 locationPathName = filePath,
-//                options = UnityEditor.BuildOptions.Development
+                options = UnityEditor.BuildOptions.Development | BuildOptions.BuildScriptsOnly,
             };
             BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
             
             //BuildSummary buildSummary = BuildPipeline.BuildPlayer(buildPlayerOptions).summary;
             Console.WriteLine($"Custom Build Success! printing info from build report{Eol}");
-            string savedInfo = "(";
-            foreach (var step in report.steps)
+            List<string> savedDiagnostics = new List<string>();
+            foreach (BuildStep buildStep in report.steps)
             {
-                Console.WriteLine($"{step.name} *** {Eol}");
-                foreach(var msg in step.messages)
-                {
-                    savedInfo += $"\"{msg.type.ToString()} - {msg.content}\" ";
-                    Console.WriteLine($"{msg.type} #### {msg.content} {Eol}");
-                    Console.WriteLine($"Next msg -------------------------{Eol}");
-                }
-                Console.WriteLine($"Next step ******************************* {Eol}");
+                foreach(BuildStepMessage message in buildStep.messages)
+                    if (message.type == LogType.Warning || message.type == LogType.Error)
+                        savedDiagnostics.Add(message.content);
             }
-            savedInfo += $")";
-            var value = Environment.GetEnvironmentVariable("env.buildInfoArray");
-            if(value == null)
-            {
-                Console.WriteLine("null");
-            }
-            else
-            {
-                Environment.SetEnvironmentVariable("env.buildInfoArray", savedInfo);
-                Console.WriteLine(value);
-            }
-
+            AnnotDiagnostics(savedDiagnostics);
             //ReportSummary(buildSummary);
             //ExitWithResult(buildSummary.result);
+        }
+        private static void AnnotDiagnostics(List<string> diagnostics)
+        {
+            foreach (string diagnostic in diagnostics)
+                Console.WriteLine($"::warning file=def.cs,line=1,col=5::${diagnostic}");
         }
 
         private static void ReportSummary(BuildSummary summary)
