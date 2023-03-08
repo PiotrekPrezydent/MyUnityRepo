@@ -1,6 +1,8 @@
 name: Tests
 
 on: workflow_dispatch
+env:
+  testArray: ()
 
 jobs:
   BashTest:
@@ -15,12 +17,12 @@ jobs:
           myArray=("jeden" "dwa")
           myArray+=("trzy" "cztery")
           echo "Hello, world!"
-          echo "savedArray=(${myArray[@]})" >> $GITHUB_ENV
+          echo "echo "::save-state name=testArray::myArray"
           
 
       - name: Step 2
         run: |
-          myArray=${{env.savedArray}}
+          myArray=${{env.testArray}}
           for str in ${myArray[@]};do
             echo $str
           done
