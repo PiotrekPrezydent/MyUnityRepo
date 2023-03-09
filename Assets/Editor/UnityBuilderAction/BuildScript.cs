@@ -178,7 +178,7 @@ namespace UnityBuilderAction
             Console.WriteLine($"::endgroup::");
             ReportSummary(report.summary);
             AnnotDiagnostics(savedDiagnostics);
-            Console.WriteLine($"group::ClosingBuild");
+            Console.WriteLine($"::group::ClosingBuild");
         }
         private static void AnnotDiagnostics(List<string> diagnostics)
         {
@@ -206,7 +206,6 @@ namespace UnityBuilderAction
                 $"{Eol}" +
                 totalWarnings +
                 totalErrors +
-                $"Errors: {summary.totalErrors.ToString()}{Eol}" +
                 $"Size: {summary.totalSize.ToString()} bytes{Eol}" +
                 $"{Eol}"
             );
