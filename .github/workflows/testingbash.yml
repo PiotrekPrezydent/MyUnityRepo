@@ -24,7 +24,7 @@ jobs:
 #           echo "::endgroup::"
       - name: Step 1
         run: |
-          echo "export MY_VAR=hello world" >> $GITHUB_ENV
+          echo "MY_VAR=hello world" >> $GITHUB_ENV
       - name: step 2
         run: |
-          echo ${env.MY_VAR}
+          echo ${{env.MY_VAR}}
