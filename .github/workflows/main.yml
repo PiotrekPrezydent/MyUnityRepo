@@ -3,7 +3,6 @@ name: Unity Build and Test
 on: workflow_dispatch
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-  buildInfoArray: ()
 
 jobs:
   build:
@@ -55,10 +54,7 @@ jobs:
           
       - name: printInfo
         run: |
-          myArray=${{env.buildInfoArray}}
-          for str in ${myArray[@]};do
-            echo $str
-          done
+          echo ${{env.MY_VAR}}
   
 #       - uses: game-ci/unity-test-runner@v2
 #         id: tests
