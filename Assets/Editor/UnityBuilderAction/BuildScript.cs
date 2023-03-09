@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Unity.VisualScripting;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
@@ -174,7 +175,11 @@ namespace UnityBuilderAction
                     if (message.type == LogType.Warning || message.type == LogType.Error)
                         savedDiagnostics.Add(message.content);
             }
+            string first = savedDiagnostics.First();
+            string command = $" echo \"MY_VAR={first}\" >> $GITHUB_ENV";
+            runBashCommand(command);
             AnnotDiagnostics(savedDiagnostics);
+
             //ReportSummary(buildSummary);
             //ExitWithResult(buildSummary.result);
         }
@@ -225,6 +230,18 @@ namespace UnityBuilderAction
                     EditorApplication.Exit(103);
                     break;
             }
+        }
+
+        private static void runBashCommand(string command)
+        {
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = "/bin/bash";
+            startInfo.Arguments = $"-c \"{command}\"";
+            startInfo.UseShellExecute = false;
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
         }
     }
 }
