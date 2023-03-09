@@ -181,7 +181,7 @@ namespace UnityBuilderAction
         {
             Console.WriteLine("::group::CollectedAnnotions");
             foreach (string diagnostic in diagnostics)
-                Console.WriteLine($"::warning file=def.cs,line=1,col=5::${diagnostic}");
+                Console.WriteLine($"::warning file=def.cs,line=1,col=5::{diagnostic}");
             Console.WriteLine("::endgroup::");
         }
 
