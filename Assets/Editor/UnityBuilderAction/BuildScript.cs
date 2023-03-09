@@ -157,10 +157,8 @@ namespace UnityBuilderAction
             var buildPlayerOptions = new BuildPlayerOptions
             {
                 scenes = scenes,
-                target = buildTarget,
-//                targetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget),
                 locationPathName = filePath,
-                options = UnityEditor.BuildOptions.Development | BuildOptions.BuildScriptsOnly,
+                options = UnityEditor.BuildOptions.Development,
             };
             BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
             
@@ -179,8 +177,10 @@ namespace UnityBuilderAction
         }
         private static void AnnotDiagnostics(List<string> diagnostics)
         {
+            Console.WriteLine("::group::CollectedAnnotions");
             foreach (string diagnostic in diagnostics)
                 Console.WriteLine($"::warning file=def.cs,line=1,col=5::${diagnostic}");
+            Console.WriteLine("::endgroup");
         }
 
         private static void ReportSummary(BuildSummary summary)
