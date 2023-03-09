@@ -5,6 +5,7 @@ using UnityEngine;
 public class newcsfile3 : MonoBehaviour
 {
     internal string abc = "a";
+    private int i = 10;
     // Start is called before the first frame update
     void Start()
     {
