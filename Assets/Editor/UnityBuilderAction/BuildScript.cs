@@ -168,27 +168,34 @@ namespace UnityBuilderAction
             BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
             
             //BuildSummary buildSummary = BuildPipeline.BuildPlayer(buildPlayerOptions).summary;
-            List<string> savedDiagnostics = new List<string>();
+            List<KeyValuePair<LogType,string>> savedDiagnostics = new List<KeyValuePair<LogType, string>>();
             foreach (BuildStep buildStep in report.steps)
             {
                 foreach(BuildStepMessage message in buildStep.messages)
+                {
                     if (message.type == LogType.Warning || message.type == LogType.Error)
-                        savedDiagnostics.Add(message.content);
+                    {
+                        KeyValuePair<LogType, string> kvp = new KeyValuePair<LogType, string>(message.type, message.content);
+                        savedDiagnostics.Add(kvp);
+                    }
+                }       
             }
             Console.WriteLine($"::endgroup::");
             ReportSummary(report.summary);
             AnnotDiagnostics(savedDiagnostics);
             Console.WriteLine($"::group::ClosingBuild");
         }
-        private static void AnnotDiagnostics(List<string> diagnostics)
+        private static void AnnotDiagnostics(List<KeyValuePair<LogType, string>> diagnostics)
         {
             if (diagnostics.Any())
             {
                 Console.WriteLine($"::group::CollectedAnnotions");
-                foreach (string diagnostic in diagnostics)
+                foreach(KeyValuePair<LogType,string> diagnostic in diagnostics)
                 {
-                    breakDown(diagnostic, out string filePath, out string line, out string column, out string message);
-                    Console.WriteLine($"::warning file={filePath},line={line},col={column}::{message}");
+                    if(diagnostic.Key == LogType.Warning)
+                        Console.WriteLine($"::warning::{diagnostic.Value}");
+                    if(diagnostic.Key == LogType.Error)
+                        Console.WriteLine($"::error::{diagnostic.Value}");
                 }
                 Console.WriteLine($"::endgroup::"+$"{Eol}"+$"{Eol}");
             }
