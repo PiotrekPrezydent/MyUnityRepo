@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class newcsfile2 : MonoBehaviour
+public class newcsfile3 : MonoBehaviour
 {
-    internal int a = 10;
+    internal string abc = "a";
     // Start is called before the first frame update
     void Start()
     {
