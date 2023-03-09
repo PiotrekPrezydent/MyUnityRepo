@@ -20,7 +20,7 @@ namespace UnityBuilderAction
 
         public static void Build()
         {
-            Console.WriteLine($"::group::BuildProcess");
+            Console.WriteLine($"::group::Build process");
             // Gather values from args
             Dictionary<string, string> options = GetValidatedOptions();
 
@@ -183,13 +183,13 @@ namespace UnityBuilderAction
             Console.WriteLine($"::endgroup::");
             ReportSummary(report.summary);
             AnnotDiagnostics(savedDiagnostics);
-            Console.WriteLine($"::group::ClosingBuild");
+            Console.WriteLine($"::group::Shutting down build process");
         }
         private static void AnnotDiagnostics(List<KeyValuePair<LogType, string>> diagnostics)
         {
             if (diagnostics.Any())
             {
-                Console.WriteLine($"::group::CollectedAnnotions");
+                Console.WriteLine($"::group::Collected errors and warnings");
                 foreach(KeyValuePair<LogType,string> diagnostic in diagnostics)
                 {
                     if(diagnostic.Key == LogType.Warning)
@@ -239,20 +239,6 @@ namespace UnityBuilderAction
                     EditorApplication.Exit(103);
                     break;
             }
-        }
-        static void breakDown(string startingMessage, out string filePath, out string line, out string column, out string message)
-        {
-            int index = startingMessage.IndexOf("(");
-            filePath = startingMessage.Substring(0, index);
-            startingMessage = startingMessage.Substring(index + 1);
-
-            index = startingMessage.IndexOf(",");
-            line = startingMessage.Substring(0, index);
-            startingMessage = startingMessage.Substring(index + 1);
-
-            index = startingMessage.IndexOf(")");
-            column = startingMessage.Substring(0, index);
-            message = startingMessage.Substring(index + 3);
         }
     }
 }
