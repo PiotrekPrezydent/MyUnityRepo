@@ -18,4 +18,7 @@ jobs:
           myArray+=("trzy" "cztery")
           echo "::group::tytul"
           echo "::warning file=plik.txt::wiadomosc"
+          echo "::group::grd"
+          echo "drugagrupa"
+          echo "::endgroup::"
           echo "::endgroup::"
