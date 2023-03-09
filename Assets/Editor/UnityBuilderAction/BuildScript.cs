@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -167,7 +168,6 @@ namespace UnityBuilderAction
             BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
             
             //BuildSummary buildSummary = BuildPipeline.BuildPlayer(buildPlayerOptions).summary;
-            Console.WriteLine($"Custom Build Success! printing info from build report{Eol}");
             List<string> savedDiagnostics = new List<string>();
             foreach (BuildStep buildStep in report.steps)
             {
@@ -175,21 +175,23 @@ namespace UnityBuilderAction
                     if (message.type == LogType.Warning || message.type == LogType.Error)
                         savedDiagnostics.Add(message.content);
             }
-            string first = savedDiagnostics.First();
-            string command = $" echo \"MY_VAR={first}\" >> $GITHUB_ENV";
-            runBashCommand(command);
+            Console.WriteLine($"::endgroup::");
+            ReportSummary(report.summary);
             AnnotDiagnostics(savedDiagnostics);
-
-            //ReportSummary(buildSummary);
-            //ExitWithResult(buildSummary.result);
         }
         private static void AnnotDiagnostics(List<string> diagnostics)
         {
-            Console.WriteLine($"::endgroup::");
-            Console.WriteLine($"::group::CollectedAnnotions");
-            foreach (string diagnostic in diagnostics)
-                Console.WriteLine($"::warning file=def.cs,line=1,col=5::{diagnostic}");
-            Console.WriteLine($"::endgroup::");
+            if (diagnostics.Any())
+            {
+                Console.WriteLine($"::group::CollectedAnnotions");
+                foreach (string diagnostic in diagnostics)
+                {
+                    breakDown(diagnostic, out string filePath, out string line, out string column, out string message);
+                    Console.WriteLine($"::warning file={filePath},line={line},col={column}::{message}");
+                }
+
+                Console.WriteLine($"::endgroup::");
+            }
         }
 
         private static void ReportSummary(BuildSummary summary)
@@ -197,7 +199,7 @@ namespace UnityBuilderAction
             Console.WriteLine(
                 $"{Eol}" +
                 $"###########################{Eol}" +
-                $"#      Build results      #{Eol}" +
+                $"::warning::#      Build results      #{Eol}" +
                 $"###########################{Eol}" +
                 $"{Eol}" +
                 $"Duration: {summary.totalTime.ToString()}{Eol}" +
@@ -207,7 +209,6 @@ namespace UnityBuilderAction
                 $"{Eol}"
             );
         }
-
         private static void ExitWithResult(BuildResult result)
         {
             switch (result)
@@ -231,17 +232,19 @@ namespace UnityBuilderAction
                     break;
             }
         }
-
-        private static void runBashCommand(string command)
+        static void breakDown(string startingMessage, out string filePath, out string line, out string column, out string message)
         {
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = "/bin/bash";
-            startInfo.Arguments = $"-c \"{command}\"";
-            startInfo.UseShellExecute = false;
-            process.StartInfo = startInfo;
-            process.Start();
-            process.WaitForExit();
+            int index = startingMessage.IndexOf("(");
+            filePath = startingMessage.Substring(0, index);
+            startingMessage = startingMessage.Substring(index + 1);
+
+            index = startingMessage.IndexOf(",");
+            line = startingMessage.Substring(0, index);
+            startingMessage = startingMessage.Substring(index + 1);
+
+            index = startingMessage.IndexOf(")");
+            column = startingMessage.Substring(0, index);
+            message = startingMessage.Substring(index + 3);
         }
     }
 }
