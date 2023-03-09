@@ -11,14 +11,20 @@ jobs:
       - name: checkoutcode
         uses: actions/checkout@v2
 
+#       - name: Step 1
+#         id: step1
+#         run: |
+#           myArray=("jeden" "dwa")
+#           myArray+=("trzy" "cztery")
+#           echo "::group::tytul"
+#           echo "::warning file=plik.txt::wiadomosc"
+#           echo "::group::grd"
+#           echo "drugagrupa"
+#           echo "::endgroup::"
+#           echo "::endgroup::"
       - name: Step 1
-        id: step1
         run: |
-          myArray=("jeden" "dwa")
-          myArray+=("trzy" "cztery")
-          echo "::group::tytul"
-          echo "::warning file=plik.txt::wiadomosc"
-          echo "::group::grd"
-          echo "drugagrupa"
-          echo "::endgroup::"
-          echo "::endgroup::"
+          echo "export MY_VAR=hello world" >> $GITHUB_ENV
+      - name: step 2
+        run: |
+          echo $MY_VAR
