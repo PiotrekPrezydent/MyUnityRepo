@@ -67,7 +67,6 @@ namespace UnityBuilderAction
 
                         PlayerSettings.Android.targetSdkVersion = targetSdkVersion;
                     }
-                    
                     break;
                 }
                 case BuildTarget.StandaloneOSX:
@@ -166,20 +165,20 @@ namespace UnityBuilderAction
                 //                options = UnityEditor.BuildOptions.Development
             };
             BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
-            
+
             //BuildSummary buildSummary = BuildPipeline.BuildPlayer(buildPlayerOptions).summary;
             List<KeyValuePair<LogType,string>> savedDiagnostics = new List<KeyValuePair<LogType, string>>();
             foreach (BuildStep buildStep in report.steps)
-            {
-                foreach(BuildStepMessage message in buildStep.messages)
-                {
-                    if (message.type == LogType.Warning || message.type == LogType.Error)
-                    {
-                        KeyValuePair<LogType, string> kvp = new KeyValuePair<LogType, string>(message.type, message.content);
-                        savedDiagnostics.Add(kvp);
-                    }
-                }       
-            }
+                foreach (BuildStepMessage message in buildStep.messages) {
+                    KeyValuePair<LogType, string> kvp = new KeyValuePair<LogType, string>(message.type, message.content);
+                    savedDiagnostics.Add(kvp);
+                    Console.WriteLine($"{message.type} - {message.content}");
+                }
+
+                    //if (message.type == LogType.Warning || message.type == LogType.Error)
+                    //{
+
+                    //}
             Console.WriteLine($"::endgroup::");
             ReportSummary(report.summary);
             AnnotDiagnostics(savedDiagnostics);
