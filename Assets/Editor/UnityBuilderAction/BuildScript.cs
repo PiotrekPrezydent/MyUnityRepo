@@ -178,6 +178,7 @@ namespace UnityBuilderAction
             Console.WriteLine($"::endgroup::");
             ReportSummary(report.summary);
             AnnotDiagnostics(savedDiagnostics);
+            Console.WriteLine($"group::ClosingBuild");
         }
         private static void AnnotDiagnostics(List<string> diagnostics)
         {
@@ -189,21 +190,22 @@ namespace UnityBuilderAction
                     breakDown(diagnostic, out string filePath, out string line, out string column, out string message);
                     Console.WriteLine($"::warning file={filePath},line={line},col={column}::{message}");
                 }
-
-                Console.WriteLine($"::endgroup::");
+                Console.WriteLine($"::endgroup::"+$"{Eol}"+$"{Eol}");
             }
         }
 
         private static void ReportSummary(BuildSummary summary)
         {
+            string? totalWarnings = summary.totalWarnings > 0 ? $"::warning::Warnings: {summary.totalWarnings.ToString()}{Eol}" : $"Warnings: {summary.totalWarnings.ToString()}{Eol}";
+            string? totalErrors = summary.totalErrors > 0 ? $"::error::Errors: {summary.totalErrors.ToString()}{Eol}" : $"Errors: {summary.totalErrors.ToString()}{Eol}";
             Console.WriteLine(
                 $"{Eol}" +
                 $"###########################{Eol}" +
-                $"::warning::#      Build results      #{Eol}" +
+                $"#      Build results      #{Eol}" +
                 $"###########################{Eol}" +
                 $"{Eol}" +
-                $"Duration: {summary.totalTime.ToString()}{Eol}" +
-                $"Warnings: {summary.totalWarnings.ToString()}{Eol}" +
+                totalWarnings +
+                totalErrors +
                 $"Errors: {summary.totalErrors.ToString()}{Eol}" +
                 $"Size: {summary.totalSize.ToString()} bytes{Eol}" +
                 $"{Eol}"
