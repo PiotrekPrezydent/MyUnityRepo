@@ -18,6 +18,7 @@ namespace UnityBuilderAction
 
         public static void Build()
         {
+            Console.WriteLine($"::group::BuildProcess");
             // Gather values from args
             Dictionary<string, string> options = GetValidatedOptions();
 
@@ -179,10 +180,11 @@ namespace UnityBuilderAction
         }
         private static void AnnotDiagnostics(List<string> diagnostics)
         {
-            Console.WriteLine("::group::CollectedAnnotions");
+            Console.WriteLine($"::endgroup::");
+            Console.WriteLine($"::group::CollectedAnnotions");
             foreach (string diagnostic in diagnostics)
                 Console.WriteLine($"::warning file=def.cs,line=1,col=5::{diagnostic}");
-            Console.WriteLine("::endgroup::");
+            Console.WriteLine($"::endgroup::");
         }
 
         private static void ReportSummary(BuildSummary summary)
