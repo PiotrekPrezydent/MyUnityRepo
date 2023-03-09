@@ -22,9 +22,18 @@ jobs:
 #           echo "drugagrupa"
 #           echo "::endgroup::"
 #           echo "::endgroup::"
-      - name: Step 1
+#       - name: Step 1
+#         run: |
+#           echo "MY_VAR=hello world" >> $GITHUB_ENV
+#       - name: step 2
+#         run: |
+#           echo ${{env.MY_VAR}}
+      - name: step1
         run: |
-          echo "MY_VAR=hello world" >> $GITHUB_ENV
+          echo "::group::abc"
+          echo "a"
       - name: step 2
-        run: |
-          echo ${{env.MY_VAR}}
+        run : |
+          echo "b"
+          echo "c"
+          echo "::endgroup::"
