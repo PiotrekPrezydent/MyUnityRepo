@@ -10,7 +10,7 @@ public class newcsfile
     {
         if (true)
         {
-
+            syntaxerror
         }
 
     }
